@@ -116,18 +116,13 @@ MCPforEMBL/
 ```bash
 # Clone the repository
 git clone https://github.com/your-username/MCPforEMBL.git
-cd MCPforEMBL
 
 # Install Python dependencies
 pip install -r requirements.txt
 
-# Copy the environment template and fill in values if needed
-cp .env.example .env
-
 # Start the server
 python run.py
 ```
-
 Open http://localhost:8000 in your browser.
 
 ### Optional: Elasticsearch caching
