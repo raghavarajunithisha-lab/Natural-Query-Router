@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMBL-EBI SearchBot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-header">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#paint0_linear)"/>
+                    <path d="M2 17L12 22L22 17" stroke="url(#paint1_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="url(#paint2_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="12" y1="2" x2="12" y2="12" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#007B7F"/>
+                            <stop offset="1" stop-color="#18A89B"/>
+                        </linearGradient>
+                        <linearGradient id="paint1_linear" x1="2" y1="17" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#007B7F"/>
+                            <stop offset="1" stop-color="#18A89B"/>
+                        </linearGradient>
+                        <linearGradient id="paint2_linear" x1="2" y1="12" x2="22" y2="17" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#007B7F"/>
+                            <stop offset="1" stop-color="#18A89B"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>SearchBot <span>Prototype</span></h1>
+            </div>
+            <nav class="tabs">
+                <button class="tab active" data-target="nlq-panel">Natural Language</button>
+                <button class="tab" data-target="blast-panel">BLAST Align</button>
+                <button class="tab" data-target="mcp-panel">MCP Explorer</button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="content-area">
+            
+            <!-- NLQ Panel -->
+            <section id="nlq-panel" class="panel active">
+                <div class="search-container">
+                    <input type="text" id="nlq-input" placeholder="Ask a biological question (e.g. Find human kinases involved in cancer)..." autocomplete="off">
+                    <button id="nlq-submit" class="btn-primary">Search</button>
+                </div>
+                <div class="suggestions" id="suggestions-box"></div>
+                
+                <div class="results-area">
+                    <div class="loading hidden" id="nlq-loading">
+                        <div class="spinner"></div>
+                        <p>Parsing query & searching databases...</p>
+                    </div>
+                    <div id="nlq-results" class="results-grid">
+                        <!-- Results injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- BLAST Panel -->
+            <section id="blast-panel" class="panel hidden">
+                <div class="blast-container glass-card">
+                    <h2>Submit Sequence to EBI Job Dispatcher</h2>
+                    <textarea id="blast-input" placeholder="Paste protein or nucleotide sequence here (e.g. MTEYKLVVVGAGGVGKSALTIQLIQ)"></textarea>
+                    <div class="blast-controls">
+                        <select id="blast-program">
+                            <option value="blastp">BLASTP (Protein)</option>
+                            <option value="blastn">BLASTN (Nucleotide)</option>
+                        </select>
+                        <button id="blast-submit" class="btn-primary">Run BLAST</button>
+                    </div>
+                    
+                    <div class="blast-status hidden" id="blast-status-area">
+                        <div class="status-indicator">
+                            <div class="spinner small-spinner"></div>
+                            <span id="blast-status-text">Submitting...</span>
+                        </div>
+                        <div id="blast-job-id" class="job-id-text"></div>
+                    </div>
+                </div>
+                <div id="blast-results-area" class="results-area hidden">
+                    <h3>Alignment Results</h3>
+                    <pre id="blast-results-content" class="blast-output"></pre>
+                </div>
+            </section>
+
+            <!-- MCP Explorer Panel -->
+            <section id="mcp-panel" class="panel hidden">
+                <div class="mcp-container glass-card">
+                    <h2>Available MCP Tools</h2>
+                    <p class="subtitle">SearchBot exposes the following tools to AI agents via FastMCP.</p>
+                    
+                    <ul class="tool-list">
+                        <li><code>search_proteins(query, size)</code></li>
+                        <li><code>search_publications(query, size)</code></li>
+                        <li><code>search_genes(species, symbol)</code></li>
+                        <li><code>run_blast(sequence, program)</code></li>
+                        <li><code>get_blast_results(job_id)</code></li>
+                        <li><code>natural_language_search(query)</code></li>
+                    </ul>
+
+                    <div class="mcp-demo">
+                        <h3>Test Tool Client-Side</h3>
+                        <div class="mcp-inputs">
+                            <select id="mcp-tool-select">
+                                <option value="search_proteins">search_proteins</option>
+                                <option value="natural_language_search">natural_language_search</option>
+                            </select>
+                            <input type="text" id="mcp-query" placeholder="Argument (e.g. cancer)">
+                            <button id="mcp-test-btn" class="btn-secondary">Invoke</button>
+                        </div>
+                        <pre id="mcp-output" class="code-output">Awaiting invocation...</pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/app.js?v=4"></script>
+</body>
+</html>
