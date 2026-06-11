@@ -116,6 +116,7 @@ MCPforEMBL/
 ```bash
 # Clone the repository
 git clone https://github.com/your-username/MCPforEMBL.git
+cd Natural-Query-Router
 
 # Install Python dependencies
 pip install -r requirements.txt
